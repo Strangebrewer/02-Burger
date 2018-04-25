@@ -1,4 +1,4 @@
 INSERT INTO burgers (burger_name)
-VALUES ("horseshit"),
-("stupid"),
-("vile");
+VALUES ("Pastrami"),
+("Bacon Bleu Cheese"),
+("Jalapeno and Onion Rings");

@@ -4,10 +4,7 @@ var express = require("express");
 var burger = require("../models/burger.js");
 
 
-//  'app' in there is a guess based on the friend finder assignment - remove if it doesn't make sense...
-function burgerRouter(app) {
 
-}
 
 module.exports = {
   burgerRouter
