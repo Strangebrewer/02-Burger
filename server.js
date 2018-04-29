@@ -1,36 +1,32 @@
 var express = require("express");
-var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
-var orm = require("./config/orm.js");
+var helpers = require("handlebars-helpers");
+var math = helpers.math();
 
-//  stupid is as stupid does - for FUN!
-var addBurger = process.argv[2];
-var changeBurger = process.argv[3];
-var changeWhich = process.argv[4];
+// Set Handlebars.
+var exphbs = require("express-handlebars");
 
-// Sets up the Express App
-// =============================================================
-var app = express();
+// Import routes...
+var routes = require("./controllers/burger_controller.js");
+
+//  Set the port to whatever is assigned by Heroku, and if that's false, then set it to 3000.
 var PORT = process.env.PORT || 3000;
+var app = express();
 
-// Set Handlebars as the default templating engine.
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
-
-// app.use('/static', express.static('public'));
-app.use(express.static('app/public'));
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static('public'));
 
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//  These will all be moved into 'burger.js' as the app structure gets worked out
-//  The variables will also need to be removed/changed - obviously
-orm.insertOne(addBurger);
-orm.selectAll();
-orm.updateOne("burger_name", "id", changeBurger, changeWhich);
-orm.selectAll();
+// Set Handlebars as the default templating engine.
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
+//  Give the server access to the routes imported above.
+app.use(routes);
 
 app.listen(PORT, function () {
-  console.log("App listening on PORT " + PORT);
+  console.log("App listening on http://localhost:" + PORT);
 });
